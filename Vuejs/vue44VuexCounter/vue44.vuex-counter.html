@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <title>Vuex Sample</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- CSS import -->
+    <link rel="stylesheet"
+      href="../css/reset.css">
+
+    <style>
+      .component-parent {
+        width: 50%;
+        background-color: lightblue;
+        padding: 5%;
+      }
+
+      .component-child {
+        width: 80%;
+        background-color: lightgray;
+        padding: 5% 5% 10% 0;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <div style="margin: 40px 0 0 20px;">
+      <div>
+        <p>외부 함수 호출 기능을 추가하기 위해서는 서버 기능이 필요합니다.</p>
+        <p>
+          1. 실행 전에 서버를 실행하세요.
+          <a href="#"
+            onClick="window.open('../../ES2015문법/ap09.서버통신/ap09-01.Node서버실행.html','Node서버실행','width=900,height=650,toolbar=no,menubar=no,scrollbars=no,resizable=yes');return false;"
+            rel="nofollow">Node서버실행</a>
+        </p>
+        <p>
+          2. 브라우저로 서버 실행 여부 확인<br>
+          <a href="http://localhost:5050/counter"
+            target="_blank">http://localhost:5050/counter</a> ==> 현재값 가져오기<br>
+          <a href="http://localhost:5050/counter?step=1"
+            target="_blank">http://localhost:5050/counter?step=1</a> ==> 1 씩 증가<br>
+          <a href="http://localhost:5050/counter?step=10"
+            target="_blank">http://localhost:5050/counter?step=10</a> ==> 10 씩 증가<br>
+        </p>
+      </div>
+    </div>
+    <xmp>
+
+    예제 "34-ex-01-counter.html" 에 Vuex 와 axios를 사용하는 방법으로 바꾸어 본다.
+
+        이 앱의 특징은 다음과 같습니다.
+        부모 컴포넌트에서 + 버튼을 클릭하면 카운터가 +10씩 올라가고
+        부모 컴포넌트에서 - 버튼을 클릭하면 카운터가 -10씩 감소됩니다.
+        자식 컴포넌트에서 + 버튼을 클릭하면 카운터가 +1씩 올라가고
+        자식 컴포넌트에서 - 버튼을 클릭하면 카운터가 -1씩 감소됩니다.
+
+
+
+    "vue40App" 폴더의 vueapp01 프로젝트에 아래 기능을 추가한다.
+
+
+
+    ##################################
+    vue4305 작업1. data 를 이용한 기본 기능 완성하기
+    ##################################
+    작업1-1. 작업 폴더 및 파일 만들기
+    $ mkdir -p src/components/vue4305
+    $ touch src/views/Page4305View.vue
+    $ touch src/components/vue4305/Vue4305Parent.vue
+    $ touch src/components/vue4305/Vue4305Child.vue
+
+    src/App.vue 수정 ==> 페이지 링크 만들기
+
+    src/router/index.js  수정 ==> url 과 컴포넌트 연결
+
+    src/views/Page4305View.vue 생성
+        <template>
+            <div id="app">
+                <h2> "34-ex-01-counter.html" 예제에 Vuex 와 axios를 적용한 프로그램을 만들어 본다.</h2>
+                <Vue4305Parent></Vue4305Parent>
+            </div>
+        </template>
+
+    src/components/Vue4305Parent.vue 생성
+        <style scoped>
+            .component-parent {
+                width: 50%;
+                background-color: lightblue;
+                padding: 5%;
+            }
+        </style>
+        <template>
+            <div id="app" class="component-parent">
+                Parent counter : {{ counter }} <br>
+                <button name="parent" v-on:click="handlerAddCounter(+10)">+</button>
+                <button name="parent" v-on:click="handlerSubCounter(-10)">-</button>
+                <p></p>
+
+                <!-- Child 컴포넌트를 등록하고 counter 데이터 속성을 props로 전달한다. -->
+                <component-child
+                    v-bind:num      ="counter"
+                    v-on:add-counter="addCounter"
+                    v-on:sub-counter="subCounter">
+                </component-child>
+            </div>
+        </template>
+
+    src/components/Vue4305Child.vue 생성
+        <style scoped>
+            .component-child {
+                width: 80%;
+                background-color: lightgray;
+                padding: 5% 5% 10% 0;
+            }
+        </style>
+        <template>
+            <div class="component-child">
+                Child counter : {{ num }} <br>
+                <button name="child" v-on:click="handlerAddCounter">+</button>
+                <button name="child" v-on:click="handlerSubCounter">-</button>
+            </div>
+        </template>
+
+
+
+
+
+    ##################################
+    vue4305 작업2. Vuex 의 store 모듈 등록하기
+    ##################################
+    작업2-1. store 디렉토리 생성
+        디렉토리 생성
+        $ ls
+        babel.config.js  jsconfig.json  node_modules/  package.json  package-lock.json  public/  README.md  src/  vue.config.js
+
+        $ mkdir -p ./src/store/modules
+
+    작업2-2. store 파일 생성
+        $ touch ./src/store/index.js
+        $ touch ./src/store/modules/counterStore.js
+
+    작업2-3. counterStore.js
+        // 파일 위치: /src/store/modules/counterStore.js
+
+        const store = {
+            namespaced: true,
+            actions: {
+                /* 왜 actions를 사용하나? 비동기로 외부 함수 호출하기 위해서
+                 * actions 에는 메서드만 등록 가능하다.
+                 * 첫번째인자: 무조건 mutations로 고정.
+                 * 두번째인자: 값. store.dispatch()호출시 넘겨지는 값.
+                 */
+                get(mutations /* 고정 */, payload) {
+                  console.log(payload);
+                  debugger;
+                  mutations.commit('get', payload);
+                },
+                set(mutations /* 고정 */, payload) {
+                  console.log(payload);
+                  debugger;
+                  mutations.commit('set', payload);
+                },
+            },
+            mutations: {
+                /* 왜 mutations 를 사용하나? state 를 바꾸기 위해서
+                 * mutations 에는 메서드만 등록 가능하다.
+                 * 첫번째인자: 무조건 state 로 고정.
+                 * 두번째인자: 값. mutations.commit() 호출시 넘겨지는 값.
+                 * */
+                get(state /* 고정 */, param /* mutations.commit 호출시 넘겨지는 값 */) {
+                  console.log(param);
+                  debugger;
+                  state.counter = param;
+                },
+                set(state /* 고정 */, param /* mutations.commit 호출시 넘겨지는 값 */) {
+                  console.log(param);
+                  debugger;
+                  state.counter = state.counter + param;
+                },
+            },
+            state: {
+                /* vue인스턴스나 컴포넌트의 data 프로퍼티에 해당 */
+                counter: 10,
+            },
+            getters: {
+                /* state 변경 정보를 컴포넌트에 전달하는 역활.
+                 * 메서드로 만들어야 하며 메서드명은 state 의 이름을 그대로 사용
+                 * 첫번째인자: 무조건 state
+                 * 컴포넌트에서는 computed를 사용하여 store의 state 변경 정보를 자동으로 가져오게 된다.
+                 * 예시) message()=> store.getters.인자;
+                 */
+                counter(state /* 고정 */) {
+                  return state.counter;
+                },
+            },
+        }
+
+        export default store;
+
+
+    작업2-4. index.js
+        // 파일 위치: /root/src/store/index.js
+
+        import { createStore } from 'vuex';
+
+        // 작성한 모듈을 가져옵니다.
+        import counterStore from '@/store/modules/counterStore.js'
+
+        export default createStore({
+            // actions: {},
+            // mutations: {},
+            // state: {},
+            // getters: {},
+            modules: {
+              // 키: 값 형태로 저장됩니다.
+              counterStore: counterStore,
+            },
+        });
+
+
+    작업2-5. main.js
+        // 파일 위치: /root/src/main.js
+
+        import { createApp } from 'vue';
+        import App from './App.vue';
+        import router from './router';
+        import store from './store';
+
+        createApp(App).use(store).use(router).mount('#app');
+
+
+
+
+
+    ##################################
+    vue4305 작업3. Vuex 의 store 에서 데이터 가져오는 get 기능 구현하기
+    ##################################
+
+
+
+
+
+
+    ##################################
+    vue4305 작업4. Vuex 의 store 에서 데이터 저장하는 set 기능 구현하기
+    ##################################
+
+
+
+
+
+
+    </xmp>
+    <hr>
+
+    <div id="app"
+      class="component-parent">
+      Parent counter : {{ counter }} <br>
+      <button name="parent"
+        v-on:click="handlerAddCounter(+10)">+</button>
+      <button name="parent"
+        v-on:click="handlerSubCounter(-10)">-</button>
+      <p></p>
+
+      <!-- Child 컴포넌트를 등록하고 counter 데이터 속성을 props로 전달한다. -->
+      <component-child v-bind:num="counter"
+        v-on:add-counter="addCounter"
+        v-on:sub-counter="subCounter">
+      </component-child>
+    </div>
+  </body>
+
+</html>

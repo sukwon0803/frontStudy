@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+      content="ie=edge">
+    <title>Document</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- CSS import -->
+    <link rel="stylesheet"
+      href="../css/reset.css">
+
+    <style>
+      span {
+        font-size: 3em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <xmp>
+
+        data 프로퍼티의 값을 변경하려면 반드시 복제 후 재할당으로 처리해야 한다.
+
+        data 프로퍼티 주의 사항
+            인스턴스나 컴포넌트의 data 속성의 값을 직접 바꾸면 화면에 rendering 이 되지 않는 문제 발생
+            즉, this.$data.arr[0]=100; 과 같이 바꾸면 값은 바뀌지만 화면에 rendering 되지 않는 문제 발생.
+
+        어떻게 data 속성의 값을 바꾸어야 하나?
+            data 속성의 값을 변경하려면 반드시 복제 후 재할당으로 처리해야 한다.
+
+        자바스크립트 타입
+            # value 타입에는 string, number, boolen, ...
+            # reference 타입에는 Object, Array, Function, ...
+
+        new Vue({
+            el: "#",
+            data: {
+                msg1:  "aaa", /* string */
+                msg2: 123, /* number */
+                msg3: true, /* boolen */
+
+                msg4: [1,2,3] /* array */
+                msg5: { a:1, b: "2"}, /*I object */
+                msg6: [
+                    { a:11, b: "12"} ,
+                    { a:21, b: "22"} ,
+                    { a:31, b: "32"} ,
+                ]
+            }
+        })
+
+
+        value 타입인 경우의 해결방법
+            data: {
+                msg1:  "aaa", /* string */
+                msg2: 123, /* number */
+                msg3: true, /* boolen */
+            }
+            1. this.$set(this.$data, "msg1", "ccc");
+            2. Vue.set(this.$data,"msg1", "bbb");
+            3. this.$data["msg1"] = "ddd";
+            4. this.$data.msg1 = "ddd";
+
+        reference 타입인 경우의 해결방법
+            data: {
+                msg4: [1,2,3] /* array */
+                msg5: { a:1, b: "2"}, /*I object */
+                msg6: [
+                    { a:11, b: "12"} ,
+                    { a:21, b: "22"} ,
+                    { a:31, b: "32"} ,
+                ]
+            }
+
+            방법1. 배열의 splice() 메서드를 이용해서 추가/수정한다.
+                this.$data.msg4 === [300,2,3]
+
+            방법2. 배열의 filter() 메서드를 사용하여 변경
+                this.$data.msg4.splice(0,2,500); // this.$data.msg4 === [500,3]
+
+            방법3. spread 연산자 방식 ==> 배열을 새로 만든 뒤 할당. ES6 에서만 가능.
+                var arr_copy=[...this.$data.msg4, 70]; // [ 500,3, 70]
+
+        실행 순서와 결과 예시
+            (0) [1, 2, 3, 4, 5]
+            (1) [100, 2, 3, 4, 5]       <== "방법0"을 사용하여 수정 ==> 값을 변경되지만 화면은 변경되지 않는다.
+            (2) [100, 2, 3, 4, 5]       <== "방법1"을 사용하여 수정하시오
+            (3) [100, 300, 3, 4, 5]     <== "방법2"을 사용하여 추가하시오
+            (4) [3, 4, 5]               <== "방법3"을 사용하여 삭제하시오
+            (5) [500, 3, 4, 5, 70]      <== "방법4"을 사용하여 새로운 배열을 만드시오.
+
+    </xmp>
+    <hr>
+    <div id="app">
+      <span v-for="(val, i) in arr"
+        v-bind:key="i">
+        {{val}}
+      </span>
+      <br>
+      <button v-on:click="change0">방법0로 변경</button>
+      <button v-on:click="change1">방법1로 변경</button>
+      <button v-on:click="change2">방법2로 변경</button>
+      <button v-on:click="change3">방법3로 변경</button>
+      <button v-on:click="change4">방법4로 변경</button>
+    </div>
+  </body>
+
+</html>
