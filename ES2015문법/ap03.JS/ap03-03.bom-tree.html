@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+      content="IE=edge">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+
+<script>
+  function func(params) {
+    console.log('name function');
+  }
+  func();
+
+  function func2(params) {
+    console.log('name function');
+  }
+  func2();
+  
+  const name2 = function (params) {
+    console.log('name2 function');
+    return func2;
+  };
+  func(name2);
+
+  const obj = {
+    a: 1,
+    name2: name2,
+  };
+
+  obj.name2();
+
+
+  const b = new Number(10);
+  console.log(b);
+  console.log(b.toString());
+
+  debugger;
+
+  const a = 10; // ==> Number Object
+  console.log(a);
+  console.log(a.toString());
+</script>

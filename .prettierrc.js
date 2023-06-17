@@ -1,14 +1,14 @@
 module.exports = {
   /* https://prettier.io/docs/en/options.html */
-  printWidth: 80 /* ÇÑ ÁÙ¿¡ 80ÄÃ·³±îÁö Çã¿ë */,
-  tabWidth: 2 /* tabÀ» ´©¸£¸é 2Ä­ µé¿©¾²±â */,
-  singleQuote: true /*¹®ÀÚ¿­ ¸®ÅÍ·²·Î " ´ë½Å ' À» »ç¿ë */,
-  semi: true /* ¹®Àå ¸¶Áö¸·¿¡ ; Ãß°¡¼³Á¤ */,
-  useTabs: false /* ÅÇ ´ë½Å spacebar ¸¦ »ç¿ë ¼³Á¤ */,
+  printWidth: 80 /* í•œ ì¤„ì— 80ì»¬ëŸ¼ê¹Œì§€ í—ˆìš© */,
+  tabWidth: 2 /* tabì„ ëˆ„ë¥´ë©´ 2ì¹¸ ë“¤ì—¬ì“°ê¸° */,
+  singleQuote: true /*ë¬¸ìì—´ ë¦¬í„°ëŸ´ë¡œ " ëŒ€ì‹  ' ì„ ì‚¬ìš© */,
+  semi: true /* ë¬¸ì¥ ë§ˆì§€ë§‰ì— ; ì¶”ê°€ì„¤ì • */,
+  useTabs: false /* íƒ­ ëŒ€ì‹  spacebar ë¥¼ ì‚¬ìš© ì„¤ì • */,
   trailingComma: 'all',
   proseWrap: 'always',
   bracketSpacing: true,
-  jsxSingleQuote: false /*JSX ¾È¿¡¼­´Â " À» »ç¿ë */,
+  jsxSingleQuote: false /*JSX ì•ˆì—ì„œëŠ” " ì„ ì‚¬ìš© */,
   quoteProps: 'as-needed',
   endOfLine: 'crlf',
 };

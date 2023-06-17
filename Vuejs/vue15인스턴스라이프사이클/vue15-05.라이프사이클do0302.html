@@ -24,6 +24,7 @@
         Vue 라이프 사이클 updated 단계가 실행되게 하려면 어떻게 하면 되는가?
 
         updated 단계는 화면의 일부분이 새로고침(렌더링)되는 것을 의미한다.
+        - > 렌더링이 실행된다.
 
         기능 추가
             1. 버튼을 만들고 클릭(click) 이벤트를 설정한다.
@@ -39,8 +40,53 @@
     <div id="app">
       {{ message }}
       <!-- 버튼 기능 추가-->
-
+      <button v-on:click="btnClick">Vue 버튼</button>
     </div>
 
   </body>
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+      /* edtmc^2w */
+      el: '#app',
+      data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        message: 'Hello Vue.js!!!',
+      },
+      //template: ``,
+      methods: {
+        /* 이벤트 핸들러 등록 + 일반 함수 */
+        btnClick(e){
+          console.log(e.target);
+          // this.$data.message = 'aaa';
+          this.$data.message = new Date().toLocaleTimeString();
+        }
+      },
+      beforeCreate() {
+        console.log("beforeCreate");
+      },
+      created() {
+        console.log("created", this.$data.message);
+        debugger;
+      },
+      beforeMount() {
+        console.log("beforeMount");
+      },
+      mounted() {
+        console.log("mounted");
+        debugger;
+      },
+      beforeUpdate() {
+        console.log("beforeUpdate");
+      },
+      updated() {
+        console.log("updated");
+        debugger;
+      },
+  });
+
+</script>
