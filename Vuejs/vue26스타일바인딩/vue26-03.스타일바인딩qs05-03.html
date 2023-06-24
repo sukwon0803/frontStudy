@@ -98,3 +98,51 @@
   </body>
 
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+      /* edtmc^2w */
+      el: '#example3',
+      data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        style1: null,
+      },
+      //template: ``,
+      methods: {
+        /* 이벤트 핸들러 등록 + 일반 함수 */
+        clickArrow(e){
+          console.log(e.target);
+          debugger;
+          // css 를 js로 바꾼다
+          /*
+            {
+              height: 50px;
+              width: 150px;
+              border: 1px solid black;
+              text-align: center;
+              line-height: 50px;
+              font-weight: 800;
+              color: red;
+              background-color: darkgoldenrod;
+              padding: 50px;
+            }
+          */
+          this.$data.style1 = {
+            height: '50px',
+            width: '150px',
+            border: '1px solid black',
+            textAlign: 'center',
+            lineHeight: '50px',
+            fontWeight: '800',
+            color: 'red',
+            backgroundColor: 'darkgoldenrod',
+            padding: '50px',
+          }
+        }
+      },
+  });
+
+</script>

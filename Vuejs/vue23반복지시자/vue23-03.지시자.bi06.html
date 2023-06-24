@@ -53,6 +53,16 @@
 
     <div id="app"
       class="col-md-10 offset-md-1">
+      <!-- <label for="">이름</label><input v-model:value="name"
+        placeholder="이름을 입력하세"> -->
+        <label for="">이름</label><input v-model="name"
+          placeholder="이름을 입력하세">
+      <label for="">전화번호</label><input v-model:value="tel"
+        placeholder="전화번호을 입력하세">
+      <label for="">주소</label><input v-model:value="address"
+        placeholder="주소를 입력하세">
+
+      <button v-on:click='btnAddClick'>추가</button>
       <table id="list"
         class="table-bordered">
         <thead>
@@ -79,3 +89,55 @@
 </html>
 
 
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+    /* edtmc^2w */
+    el: '#app',
+    data: {
+      /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+      contacts: [
+        /*{ name, tel, address }*/
+        { 'name': '설현', 'tel': '010-3456-8200', 'address': '서현' },
+        { 'name': '혜리', 'tel': '010-3456-8299', 'address': '서리' },
+      ],
+      name: null,
+      tel: null,
+      address: null,
+    },
+    //template: ``,
+    methods: {
+      /* 이벤트 핸들러 등록 + 일반 함수 */
+      btnAddClick(e) {
+        console.log(e.target);
+        // debugger;
+
+        // 배열에 추가하시오
+        // push() 메서드, spread 연산자.
+        // this.$data.contacts.push({'name': '혜리', 'tel': '010-3456-8299', 'address': '서리' });
+        // [{ 'name': '혜리', 'tel': '010-3456-8299', 'address': '서리' }];
+        //this.$data.contacts.btnAddClick({ 'name': '혜리', 'tel': '010-3456-8299', 'address': '서리' })
+        const obj = {
+          'name': this.$data.name,
+          'tel': this.$data.tel,
+          'address': this.$data.address,
+        };
+        //debugger;
+        // this.$data.contacts.push({ 'name': this.$data.name, 'tel': this.$data.tel, 'address': this.$data.address });
+        this.$data.contacts.push(obj);
+
+        // 입력된 값 초기화 기능 추가
+        // "추가" 버튼을 클릭하면 Object Array에 추가하고
+        //   input 태그에 입력된 값을 지우시오.
+        // this.$data.name = '';
+        // this.$data.tel = '';
+        // this.$data.address = '';
+        this.$data.name = null;
+        this.$data.tel = null;
+        this.$data.address = null;
+      }
+    },
+  });
+
+</script>

@@ -69,6 +69,7 @@
     문제2.
     id="but1" 인 엘리먼트에 mouseover, mouseout 효과 넣기
     id="img-swap"인 엘리멘트에 mouseover, mouseout 효과 넣기
+    클릭된 태그의 id 속성값을 알고 싶으면 어떻게 하면 될까?
 
     문제3.
     span 엘리먼트에 mouseover, mouseout, mousedown, mouseup 효과 넣기
@@ -90,17 +91,17 @@
       </xmp>
       <ul>
         <li>
-          <a class="image3" href="../images/image3.jpg" click="imageclick">
+          <a class="image3" href="../images/image3.jpg" v-on:click="imageclick">
             강아지 사진
           </a>
         </li>
         <li>
-          <a class="image3" href="../images/image4.jpg" click="imageclick">
+          <a class="image3" href="../images/image4.jpg" v-on:click="imageclick">
             고양이 사진
           </a>
         </li>
       </ul>
-      <img id="img2" src="img_image3" />
+      <img id="img2" v-bind:src="img_image3" />
       <hr />
 
       <xmp>
@@ -112,8 +113,8 @@
         이미지 위에 마우스를 내리면(mouseout ) ==> ../images/but1.gif , ../images/img_swap_off.png
         이미지 위에 마우스를 올리면(mouseover) ==> ../images/but2.gif , ../images/img_swap_on.png
       </xmp>
-      <img src="img_but1" id="but1"     mouseover="imageover" mouseout="imageout" />
-      <img src="img_swap" id="img-swap" mouseover="imageover" mouseout="imageout" />
+      <img v-bind:src="img_but1" id="but1"     v-on:mouseover="imageover" v-on:mouseout="imageout" />
+      <img v-bind:src="img_swap" id="img-swap" v-on:mouseover="imageover" v-on:mouseout="imageout" />
       <hr />
 
       <xmp>
@@ -128,20 +129,20 @@
           2. 문자열  yellow           ===> "yellow"
           3. 콤마    ;                ===> ,
       </xmp>
-      <span mouseover= "spanmouseover"
-            mousedown= "spanmousedown"
-            mouseup  = "spanmouseup"
-            mouseout = "spanmouseout" >
+      <span v-on:mouseover= "spanmouseover"
+            v-on:mousedown= "spanmousedown"
+            v-on:mouseup  = "spanmouseup"
+            v-on:mouseout = "spanmouseout" >
       </span>
-      <span mouseover= "spanmouseover"
-            mousedown= "spanmousedown"
-            mouseup  = "spanmouseup"
-            mouseout = "spanmouseout" >
+      <span v-on:mouseover= "spanmouseover"
+            v-on:mousedown= "spanmousedown"
+            v-on:mouseup  = "spanmouseup"
+            v-on:mouseout = "spanmouseout" >
       </span>
-      <span mouseover= "spanmouseover"
-            mousedown= "spanmousedown"
-            mouseup  = "spanmouseup"
-            mouseout = "spanmouseout">
+      <span v-on:mouseover= "spanmouseover"
+            v-on:mousedown= "spanmousedown"
+            v-on:mouseup  = "spanmouseup"
+            v-on:mouseout = "spanmouseout">
       </span>
       <hr />
 
@@ -153,13 +154,27 @@
         "vue23-01.v-for와배열.html" 를 참조하여 option 부분을 v-for 를 사용하도록 수정하시오.
 
       </xmp>
-      <select id="sel" change="selectchange">
+      <select id="sel" v-on:change="selectchange">
           <option value="../images/strawberry.gif">딸기</option>
           <option value="../images/banana.gif">바나나</option>
           <option value="../images/apple.gif" selected>사과</option>
       </select>
 
-      <img id="img" src="img_select" />
+      <img id="img" v-bind:src="img_select" />
+
+
+      <select id="sel1" v-on:change="selectchange" v-model:selected="img_select">
+        <!-- <option v-for="(option, index) in options"
+          v-bind:key="index"
+          v-bind:value="option.value">
+          {{ option.text }}
+        </option> -->
+        <option v-for="(option, index) in options"
+          v-bind:key="index" v-bind:value="option.value">
+          {{option.text}}
+        </option>
+      </select>
+
       <hr />
 
       <xmp>
@@ -176,3 +191,113 @@
   </body>
 
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+      /* edtmc^2w */
+      el: '#app',
+      data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        img_image3: null,
+        img_but1: '../images/but1.gif',
+        img_swap: '../images/img_swap_on.png',
+        img_select: '../images/apple.gif',
+        options: [
+          { text: '딸기', value: '../images/strawberry.gif' },
+          { text: '바나나', value: '../images/banana.gif' },
+          { text: '사과', value: '../images/apple.gif' },
+        ],
+      },
+      //template: ``,
+      methods: {
+        /* 이벤트 핸들러 등록 + 일반 함수 */
+        imageclick(e){
+          console.log(e.target);
+          // 1. 클릭된 a 태그의 href 값을 가져온다.
+          // ==> event.target.href   # a 태그의 href 속성값
+          //    ==> event.target.value  # input 태그의 value 속성값
+          const href = e.target.href;
+          console.log(href);
+
+          // debugger;
+          //  2. id = "img2" 의 src 에 1번에서 얻은 href의 값을 넣는다.
+          //     ==> img 태그의 src 속성에 데이터 바인딩을 하려고 한다
+          //         어떤 지시자를 사용하면 될까 ?
+          this.$data.img_image3 = href;
+          // 3. a 태그의 redirect 기능을 취소하시오.
+          //   event.stopPropagation();
+          // event.preventDefault()
+          // e.stopPropagation();
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        imageover(e){
+          console.log(e.target);
+          //debugger;
+          // 이벤트를 발생시킨 img 태그의 id 속성값 구하기
+          const id = e.target.id;
+          if(id === 'but1')
+            this.$data.img_but1 = '../images/but2.gif';
+          else
+           this.$data.img_swap = '../images/img_swap_on.png';
+          //event.target.href = ;
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        imageout(e) {
+          console.log(e.target);
+          //event.target.href;
+          const id = e.target.id;
+          if (id === 'but1')
+            this.$data.img_but1 = '../images/but1.gif';
+          else
+            this.$data.img_swap = '../images/img_swap_off.png';
+          e.stopPropagation();
+          e.preventDefault();
+
+        },
+        spanmouseover(e){
+          console.log(e.target);
+          // <span style="background-color: yellow;"></span>
+          e.target.style.backgroundColor = 'yellow';
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        spanmousedown(e) {
+          console.log(e.target);
+          // <span style="background-color: blue;"></span>
+          e.target.style.backgroundColor = 'blue';
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        spanmouseup(e) {
+          console.log(e.target);
+          // <span style="background-color: pink;"></span>
+          e.target.style.backgroundColor = 'pink';
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        spanmouseout(e) {
+          console.log(e.target);
+          // <span style="background-color: red;"></span>
+          e.target.style.backgroundColor = 'red';
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        selectchange(e){
+          console.log(e.target);
+          console.log(e.target.value);
+          // debugger;
+          //<option value="../images/strawberry.gif">딸기</option>
+          //<option value="../images/banana.gif">바나나</option>
+          //<option value="../images/apple.gif" selected>사과</option>
+          // const
+          this.$data.img_select = e.target.value;
+        }
+      },
+  });
+
+</script>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+      content="ie=edge">
+    <title>Color Card</title>
+
+    <link rel="stylesheet"
+      href="../css/reset.css" />
+
+    <style>
+      body>div {
+        padding: 50px;
+        background-color: #ffffff;
+      }
+
+      .card {
+        display: inline-block;
+        height: 200px;
+        width: 150px;
+        padding: 0;
+        margin: 10px;
+        background-color: #ffffff;
+        webkit-filter: drop-shadow(0px 0px 5px #666666);
+        filter: drop-shadow(0px 0px 5px #666666);
+      }
+
+      .square {
+        height: 150px;
+        background-color: #ff6663;
+      }
+
+      .label {
+        font-family: sans-serif;
+        font-weight: bold;
+        padding: 13px;
+        margin: 0;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <xmp>
+        CSS로 만든 카드를 컴포넌트로 만들어 본다.
+        작업 순서
+
+        1. 컴포넌트 4개 만들기.
+          CardContainer  : 공유 데이터
+          Card = Square + Lable,
+          Square,
+          Label,
+
+
+        2. ReactDOM 을 사용하여 화면에 붙인다.
+          예시) ReactDOM.render( <CardContainer /> , document.getElementById("app") );
+
+        3. CardContainer 컴포넌트 JSX
+          return (
+            <div>
+              <Card color={"#ff6663"}></Card>
+              <Card color={"#ffa737"}></Card>
+            </div>
+          );
+
+        4. Card 컴포넌트 JSX
+          return (
+              <div className="card">
+                  <Square color={color}></Square>
+                  <Label color={color}></Label>
+              </div>
+          );
+
+        5. Square 컴포넌트 JSX
+          let style = { backgroundColor: props.color }
+          return (
+              <div className="square" style={style}>
+              </div>
+          );
+
+        6. Label 컴포넌트 JSX
+          return (
+              <div className="label">
+                  {color}
+              </div>
+          );
+
+        7. 도전. CardContainer 컴포넌트 JSX에 반복문을 적용하여 본다.
+        7.1 colors 상태값 만들기
+        const [colors, setColors] = useState(['#ff6663', '#ffa737']);
+
+        7.2 JSX에 반복문을 적용하여 본다.
+          return (
+            <div>
+              <Card color={"#ff6663"}></Card>
+              <Card color={"#ffa737"}></Card>
+            </div>
+          );
+    </xmp>
+    <hr>
+
+    <h2>CSS로 만든 카드</h2>
+    <div>
+      <div>
+        <div class="card">
+          <div class="square"
+            style="background-color: #ff6663;">
+            &nbsp;
+          </div>
+          <div class="label">
+            #ff6663
+          </div>
+        </div>
+        <div class="card">
+          <div class="square"
+            style="background-color: #ffa737;">
+            &nbsp;
+          </div>
+          <div class="label">
+            #ffa737
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>컴포넌트로 만든 카드</h2>
+    <div id="app">
+
+    </div>
+  </body>
+</html>

@@ -12,12 +12,12 @@ https://www.npmjs.com/
 
 
 vue 단축키:
-  vueplugin : .html 파일에서 사용.
-  vuei      : .html 파일에서 사용.
+  vueplugin : .html 파일에서 사용. > 수업
+  vuei      : .html 파일에서 사용. > 수업
 
-  vuefc     : 파일 컴포넌트 코드 생성. .vue 파일에서 사용.
+  vuefc     : 파일 컴포넌트 코드 생성. .vue 파일에서 사용. > 실무
 
-  vuex      : vuex 코드 생성. .vue 에서 사용.
+  vuex      : vuex 코드 생성. .vue 에서 사용. > 실무
 
 
 실행중인 서버 중지 : ctrl + c

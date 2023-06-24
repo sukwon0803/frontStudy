@@ -65,3 +65,43 @@
   </body>
 
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+      /* edtmc^2w */
+      el: '#app',
+      data: {
+        /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+        sum1: 0,
+        numInput: 0,
+        sumInput: 0,
+        sum10: 0,
+      },
+      //template: ``,
+      methods: {
+        /* 이벤트 핸들러 등록 + 일반 함수 */
+        clickBtn1(e){
+          console.log(e.target);
+          this.$data.sum1 = this.$data.sum1 +1;
+        },
+        clickBtnInput(e) {
+          console.log(e.target);
+          this.$data.sumInput = this.$data.sumInput + Number(this.$data.numInput);
+
+          //event.preventDefault;
+        },
+        clickBtn10(e) {
+          console.log(e.target);
+          //this.$data.sum1 = this.$data.sum1 + 1;
+          debugger;
+          const num = e.target.dataset.num;
+          this.$data.sum10 = this.$data.sum10 + Number(num);
+        },
+      },
+
+  });
+
+</script>

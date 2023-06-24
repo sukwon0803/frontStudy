@@ -106,3 +106,75 @@
   </body>
 
 </html>
+
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script>
+  new Vue({
+    /* edtmc^2w */
+    el: '#app1',
+    data: {
+      /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+      awesome: true, /* null === false === '' */
+    },
+  });
+
+  new Vue({
+    /* edtmc^2w */
+    el: '#app2',
+    data: {
+      /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+      awesome: false, /* null === false === '' */
+      //awesome > undefind // false
+    },
+  });
+
+  new Vue({
+    /* edtmc^2w */
+    el: '#app3',
+    data: {
+      /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+      awesome: false,
+    },
+    //template: ``,
+    methods: {
+      /* 이벤트 핸들러 등록 + 일반 함수 */
+      clickBind(e) {
+        console.log(e.target);
+        debugger;
+        // 클릭하면 awesome: true ==> awesome : false < br />
+        // 클릭하면 awesome: false ==> awesome : true < br />
+        // if(awesome === true){
+        //   this.$data.awesome = false;
+        // } else {
+        //   this.$data.awesome = true;
+        // }
+        this.$data.awesome = !this.$data.awesome;
+      }
+    },
+  });
+
+  new Vue({
+    /* edtmc^2w */
+    el: '#app4',
+    data: {
+      /* 인스턴스 안에서 사용되는 변수 등록, 공유 변수 */
+      type: 0,
+    },
+    //template: ``,
+    methods: {
+      /* 이벤트 핸들러 등록 + 일반 함수 */
+      clickBind(e) {
+        console.log(e.target);
+        // this.$data.type = this.$data.type + 1;
+        // console.log(this.$data.type);
+        // if(this.$data.type >= 4){
+        //   this.$data.type = 0;
+        // }
+        this.$data.type = (this.$data.type + 1) % 4;
+      }
+    },
+  });
+
+</script>
