@@ -43,3 +43,78 @@
 </html>
 
 
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<Loop3 />, document.getElementById('wrap3'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function Loop3({ ...props }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [count, setCount] = useState(['one', 'two', 'three']); // 상태값이 기본타입인 경우
+
+    const lis = count &&
+      count.length > 0 &&
+      count.map((item, index, array) => {
+        return (<li key={item + index}>{item}</li>);
+      })
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Loop3
+        {lis}
+      </div>
+    );
+  }
+
+  ReactDOM.render(<Loop4 />, document.getElementById('wrap4'));
+
+  // const {...props} = props;
+  function Loop4({ ...props }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [count, setCount] = useState(['one', 'two', 'three']); // 상태값이 기본타입인 경우
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Loop4
+        {
+          count && count.length > 0 && count.map((item, index, array) => {
+            return (<li key={item + index}>{item}</li>);
+          })
+        }
+      </div>
+    );
+  }
+
+  Loop4.propTypes = {
+    // props의 프로퍼티 타입 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: PropTypes.func.isRequired,
+    // 인자명: PropTypes.arrayOf(PropTypes.object),
+  };
+  Loop4.defaultProps = {
+    // props의 디폴트 값 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: () => {},
+    // 인자명: [],
+  };
+</script>

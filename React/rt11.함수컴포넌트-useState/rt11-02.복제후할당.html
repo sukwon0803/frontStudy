@@ -89,3 +89,112 @@ const [arr, setArr] = useState([1, 2, 3, 4, 5]);
     </div>
   </body>
 </html>
+
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<Repl />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function Repl({ }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [arr, setArr] = useState([1, 2, 3, 4, 5]); // 상태값이 기본타입인 경우
+
+    // 이벤트 핸들러 작성.
+    const handlerChange1 = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      console.log('변경 전:', arr); // [1, 2, 3, 4, 5]
+      // arr[0] = 100;
+      const newArr = [100, 2, 3, 4, 5];
+      setArr(newArr); // state 변경은 비동기로 처리된다. ==> 시간이 오래걸린다
+      console.log('변경 후:', arr); // [1, 2, 3, 4, 5]
+      debugger;
+    };
+    const handlerChange2 = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      debugger;
+      // console.log('변경 전:', arr);
+      // 복제
+      const newArr = arr && arr.length > 0 && arr.map((value, index, array) => {
+        if (index === 1)
+          value = 300;
+        return value;
+      });
+      // 할당
+      setArr(newArr);
+    };
+    const handlerChange3 = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      debugger;
+      // 복제 ==> 얕은 복사 방식이 사용됨
+      const newArr = arr && arr.length > 0 &&
+        // arr.filter((value, index, array) => {
+        //   debugger;
+        //   if (index > 1)
+        //     return true;  // 넣는다
+        //   return false; // 뺀다
+        // });
+        arr.filter((value, index, array) => ((index > 1) ? true : false));
+      // 할당
+      setArr(newArr);
+    };
+    const handlerChange4 = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      debugger;
+      // 복제 ==> 얕은 복사 방식이 사용됨
+      const newArr = [500, ...arr, 70];
+
+      // 할당
+      setArr(newArr);
+    };
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div id="app">
+        <div>
+          {arr.map((value, index) => (<span key={index}> {value} </span>))}
+          <br />
+          <button onClick={handlerChange1}>방법1로 변경</button>
+          <button onClick={handlerChange2}>방법2로 변경</button>
+          <button onClick={handlerChange3}>방법3로 변경</button>
+          <button onClick={handlerChange4}>방법4로 변경</button>
+        </div>
+      </div>
+    );
+  }
+
+  Repl.propTypes = {
+    // props의 프로퍼티 타입 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: PropTypes.func.isRequired,
+    // 인자명: PropTypes.arrayOf(PropTypes.object),
+  };
+  Repl.defaultProps = {
+    // props의 디폴트 값 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: () => {},
+    // 인자명: [],
+  };
+</script>

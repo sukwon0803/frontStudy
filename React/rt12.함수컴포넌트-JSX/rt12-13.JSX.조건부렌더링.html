@@ -40,3 +40,83 @@
     <div id="app"></div>
   </body>
 </html>
+
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<Greeting isLoggedIn={true} />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function Greeting({ isLoggedIn }) {
+    //const isLoggedIn = true;
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    if (isLoggedIn) {
+      return (
+        <div>
+          Greeting
+          <UserGreeting></UserGreeting>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          Greeting
+          <GuestGreeting></GuestGreeting>
+        </div>
+      );
+    }
+
+    // return (
+    //   <div>
+    //     Greeting
+    //     { isLoggedIn? <UserGreeting></UserGreeting>
+    //       : <GuestGreeting></GuestGreeting>
+    //     }
+    //   </div>
+    // );
+  }
+
+  // const {...props} = props;
+  function UserGreeting({ ...props }) {
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Welcome back!
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function GuestGreeting({ ...props }) {
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Please sing up.
+      </div>
+    );
+  }
+
+</script>

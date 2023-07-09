@@ -41,8 +41,8 @@ https://www.npmjs.com/
 
 react 단축키:
   reactplugin : .html 파일에서 사용.
-  rfchtml     : html 파일에서 함수형 컴포넌트 만들 때 사용
-  rfc         : js 파일에서 함수형 컴포넌트 만들 때 사용
+  rfchtml     : html 파일에서 함수형 컴포넌트 만들 때 사용  ======> 수업
+  rfc         : js 파일에서 함수형 컴포넌트 만들 때 사용  ========> 업무
   styled      : 스타일 컴포넌트 코드 생성(styled-components)
   rdx         : redux 코드 생성
 

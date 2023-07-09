@@ -46,3 +46,64 @@
     </div>
   </body>
 </html>
+
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<KingContainer />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function KingContainer({ ...props }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [kingNmae, setKingNmae] = useState(['세종대왕1', '이순신2', '광개토3', '왕건4']); // 상태값이 기본타입인 경우
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    const Kings = kingNmae.map((item, index, array) => {
+      return (<King name={item} key={index}></King>);
+    });
+    console.log(Kings);
+    return (
+      <div>
+        {/*
+          <King name={'세종대왕'}> </King>
+          <King name={'이순신'}> </King>
+          <King name={'광개토'}> </King>
+          <King name={'왕건'}> </King>
+      */}
+        {Kings}
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function King({ name }) {
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        {name}
+      </div>
+    );
+  }
+
+</script>

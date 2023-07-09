@@ -298,10 +298,10 @@
               node: true,
 
               browser: true,
-              commonjs: true,
-              es6: true,
-              es2021: true,
-              jest: true,
+              commonjs: true, // require() 메서드를 이용한 import 허용
+              es6: true,  // es2015 사용설정
+              es2021: true, // es2021 사용설정
+              jest: true, // jest 검사 허용
             },
             extends: [
                 'plugin:vue/essential',
@@ -317,17 +317,17 @@
               'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
               'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
-              'prettier/prettier': ['error', { endOfLine: 'auto' }], /* 라인당 최대 글자 수 설정 */
+              'prettier/prettier': ['error', { endOfLine: 'auto' }], /* 라인당 최대 글자 수 설정 - 줄바꿈 설정 */
               'linebreak-style': 'off',
               'arrow-parens': ['error', 'always'], /* (a) => {} */
               'arrow-body-style': 'off', /* 화살표 함수 관련 설정 */
-              'consistent-return': 'off',
+              'consistent-return': 'off', /* 화살표 함수 자동 리턴 처리*/
               'func-names': 'off', /* 변수 선언시 var 사용하면 오류 발생 */
               'no-shadow': 'off',
-              'no-alert': 'off', /* 변수 선언시 var 사용하면 오류 발생 */
+              'no-alert': 'off', /* alert() 메서드 사용시 오류 발생 */
               'no-var': 'error', /* 변수 선언시 var 사용하면 오류 발생 */
-              'no-unused-vars': 'off',
-              'no-param-reassign': ['error', { props: false }],
+              'no-unused-vars': 'off',  /* 변수 선언후 미 사용시 오류 처리 */
+              'no-param-reassign': ['error', { props: false }], /*함수 매개변수를 변경할때 오류 처리*/
             },
             overrides: [
               {
@@ -546,8 +546,8 @@
     ##################################
     # 작업 폴더 및 파일 만들기
         $ mkdir -p src/components/vue3104
-        $ touch src/views/Vue3104View.vue
-        $ touch src/components/vue3104/Vue3104Counter.vue
+        $ touch src/views/Vue3104View.vue # 컨테이너 컴포넌트
+        $ touch src/components/vue3104/Vue3104Counter.vue # 프리젠테이션 컴포넌트
 
     페이지 링크 만들기  ==> src/App.vue 수정
 

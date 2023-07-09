@@ -68,6 +68,13 @@ Windows에서 Bash Shell을 사용하려면 Git Bash 에뮬레이터를 사용�
 Windows 10 이상 사용자인 경우, <a target="_blank" href="https://docs.microsoft.com/ko-kr/windows/wsl/about">WSL</a>을 설치해 Ubuntu를 사용하는 방법으로 대체할 수 있습니다.
 
 
-## 설문 조사
+
+### 수업 영상 자료
+
+[es2015 수업 영상](https://youtu.be/5zBmgLhiIRM)
+
+
+
+### 설문 조사
 
 설문에 응답해주세요.

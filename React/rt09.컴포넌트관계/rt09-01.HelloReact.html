@@ -33,7 +33,7 @@
             <div>
                 도전1. Hello, React!!!
                 <br />
-                도전2. {mesgOfState}
+                도전2. {mesgOfState} -> 내장변수수
                 <br />
                 도전3. {mesgOfProps}
             </div>
@@ -48,7 +48,8 @@
                 <hr />
             </div>
 
-        도전. 부모의 callback 메서드 호출 기능을 추가한다.
+        도전. HelloReact 컴포넌트에 이벤트 핸들러 추가.
+            부모의 callback 메서드 호출 기능을 추가한다.
             <hr />
             <button onClick={????}> 부모의 callback 메서드 호출</button>
 
@@ -71,3 +72,98 @@
 </html>
 
 
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<HelloContainer mesgOfProps={"Hello, Props!!!"} />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function HelloContainer({ ...props }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [mesgOfProps, setMesgOfProps] = useState('Hello, Props!!!'); // 상태값이 기본타입인 경우
+
+    // ref 만들기.
+    // const refInput = useRef();
+
+    // callback 메서드 작성. callback 메서드는 부모의 공유 상태값을 변경하기 위해서 사용된다.
+    const callback = useCallback(
+      (param) => {
+        debugger;
+        // state 변경
+        setMesgOfProps(param);
+      },
+      [
+        /* 연관배열: 콜백 메서드에서 변경하고자 하는 연관되는 상태(변수)명들을 기술  */
+        mesgOfProps
+      ]
+    );
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        <HelloReact mesgOfProps={mesgOfProps} callback={callback}>
+
+        </HelloReact>
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function HelloReact({ mesgOfProps, callback }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [mesgOfState, setMesgOfState] = useState('Hello React'); // 상태값이 기본타입인 경우
+
+    // 이벤트 핸들러 작성.
+    const handler = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      debugger;
+      // 부모의 콜백 메서드 호출하기
+      callback("12345678");
+      // mesgOfProps = "12345678"; // => 오류 발생
+    };
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        도전1. Hello, React!!!
+        <br />
+        도전2. {mesgOfState} - 내장변수
+        <br />
+        도전3. {mesgOfProps}
+        <hr />
+        <button onClick={handler}> 부모의 callback 메서드 호출</button>
+      </div>
+    );
+  }
+
+  HelloReact.propTypes = {
+    // props의 프로퍼티 타입 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: PropTypes.func.isRequired,
+    // 인자명: PropTypes.arrayOf(PropTypes.object),
+  };
+  HelloReact.defaultProps = {
+    // props의 디폴트 값 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: () => {},
+    // 인자명: [],
+  };
+</script>

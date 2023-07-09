@@ -94,3 +94,99 @@
     <div id="app"></div>
   </body>
 </html>
+
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<Parent />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function Parent({ ...props }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [parentText, setParentText] = useState('parent text');
+    const [childMessage, setChildMessage] = useState(null);
+
+    // callback 메서드 작성. callback 메서드는 부모의 공유 상태값을 변경하기 위해서 사용된다.
+    const callbackChildMessage = useCallback((param) => {
+      // state 변경
+      debugger;
+      console.log(param);
+      setParentText(param);
+      setChildMessage(param);
+    },
+      [
+        /* 연관배열: 콜백 메서드에서 변경하고자 하는 연관되는 상태(변수)명들을 기술  */
+        parentText, childMessage
+      ]
+    );
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        <Child
+          callbackChildMessage={callbackChildMessage}
+          parentText={parentText}></Child>
+        <br />
+        {childMessage}
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function Child({ callbackChildMessage, parentText }) {
+    // useState 를 사용한 컴포넌트의 상태값 설정
+    const [childText, setChildText] = useState('child text'); // 상태값이 기본타입인 경우
+
+    // 이벤트 핸들러 작성.
+    const handlerChild = (e) => {
+      // 이벤트 핸들러는 화살표 함수로 만든다
+      console.log(e.target);
+      debugger;
+
+      // 부모 컴포넌트(Parent)의 callback 메서드 호출.
+      callbackChildMessage(childText + new Date().toLocaleTimeString());
+    };
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        parentText: {parentText}
+        <br />
+        childText: {childText}
+        <br />
+        <button onClick={handlerChild}>button</button>
+      </div>
+    );
+  }
+
+  Child.propTypes = {
+    // props의 프로퍼티 타입 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: PropTypes.func.isRequired,
+    // 인자명: PropTypes.arrayOf(PropTypes.object),
+  };
+  Child.defaultProps = {
+    // props의 디폴트 값 설정. https://ko.reactjs.org/docs/typechecking-with-proptypes.html
+    // 인자명: () => {},
+    // 인자명: [],
+  };
+</script>

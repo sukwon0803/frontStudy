@@ -33,3 +33,61 @@
     <div id="app"></div>
   </body>
 </html>
+
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<JsxContainer />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function JsxContainer({ ...props }) {
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        JsxContainer
+        <Jsx></Jsx>
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function Jsx({ ...props }) {
+    // css -> js 바꾸기
+    const style1 = {
+      /*"border: 2px solid red; background-color:red;"*/
+      border: '2px solid red',
+      backgroundColor: 'red',
+    }
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div className="my-div">
+        <div style={style1}>
+          &nbsp; 변수로 처리된 style
+        </div>
+        <div style={{ border: '2px solid red', backgroundColor: 'red', }}>
+          &nbsp; 인라인으로 처리된 style
+        </div>
+      </div>
+    );
+  }
+</script>

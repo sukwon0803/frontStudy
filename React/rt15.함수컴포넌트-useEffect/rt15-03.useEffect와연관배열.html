@@ -26,3 +26,122 @@
     <div id="app"></div>
   </body>
 </html>
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"
+  crossorigin="anonymous">
+    /* 자바스크립트로 컴파일러. ES6 ==> ES5, JSX ==> ES5  */
+  </script>
+<script src="http://unpkg.com/react@17/umd/react.development.js"
+  crossorigin="anonymous">
+    /* import React, { Component, PureComponent } from 'react' */
+  </script>
+<script src="http://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin="anonymous">
+    /* import ReactDOM from 'react-dom' */
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.js"
+  crossorigin="anonymous">
+  </script>
+<script type="text/babel">
+
+  const { useState, useEffect, useRef, useCallback, useMemo, useReducer, Fragment } = React;
+
+  // id="app" 인 태그 에 아래에서 만든 컴포넌트를 화면에 붙이시오
+  // ReactDOM.render( 인자1, 인자2 )
+  ReactDOM.render(<Greeting />, document.getElementById('app'));
+
+  // 단축키 rfchtml
+  // const {...props} = props;
+  function Greeting({ ...props }) {
+    //const isLoggedIn = true;
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // ref 만들기.
+    // const isLoggedIn = useRef(false);
+
+    // refIsMounted는 생명주기의 마운트와 업데이트를 구분하기 위한 ref
+    const refIsMounted = useRef(false);
+    useEffect(() => {
+      if (refIsMounted.current) {
+        // 업데이트 될 때마다 실행됨. 여러번. state 가 변경될 때마다
+        console.log('Greeting 와연관배열 >> componentDidUpdate');
+      }
+      else {
+        // 마운트 완료 후에 실행됨. 한번만. focus 줄때
+        console.log('Greeting 와연관배열 >> componentDidMount');
+        refIsMounted.current = true;
+      }
+      return () => {
+        // 언마운트 직전에 한번만 실행됨.
+        console.log('Greeting 와연관배열 >> componentWillUmount');
+      };
+    }, [/* 연관배열: 메서드와 연관되는 상태(변수)명들을 기술 */]);
+
+    const handler = (e) => {
+      console.log(e.target);
+      // debugger;
+      // isLoggedIn의 값을 변경한다.
+      setIsLoggedIn(!isLoggedIn);
+    }
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Greeting
+        <button onclick={handler}>button</button>
+        {isLoggedIn && <UserGreeting></UserGreeting>}
+        {!isLoggedIn && <GuestGreeting></GuestGreeting>}
+      </div>
+    );
+
+    // if (isLoggedIn) {
+    //   return (
+    //     <div>
+    //       Greeting
+    //       <button onclick={handler}>button</button>
+    //       <UserGreeting></UserGreeting>
+    //     </div>
+    //   );
+    // } else {
+    //   return (
+    //     <div>
+    //       Greeting
+    //       <button onclick={handler}>button</button>
+    //       <GuestGreeting></GuestGreeting>
+    //     </div>
+    //   );
+    // }
+
+    // return (
+    //   <div>
+    //     Greeting
+    //     { isLoggedIn? <UserGreeting></UserGreeting>
+    //       : <GuestGreeting></GuestGreeting>
+    //     }
+    //   </div>
+    // );
+  }
+
+  // const {...props} = props;
+  function UserGreeting({ ...props }) {
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Welcome back!
+      </div>
+    );
+  }
+
+  // const {...props} = props;
+  function GuestGreeting({ ...props }) {
+
+    // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html
+    return (
+      <div>
+        Please sing up.
+      </div>
+    );
+  }
+
+</script>
